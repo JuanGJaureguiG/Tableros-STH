@@ -3,165 +3,161 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Competitividad Territorial · Tolima y Huila · IDC 2026 · UNIMINUTO Sede Tolima-Huila</title>
-<link rel="stylesheet" href="styles.css">
+<title>Tableros de Control · UNIMINUTO Sede Tolima-Huila</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap');
+
+  :root{
+    --bg:#F5F6F3;
+    --panel:#FFFFFF;
+    --ink:#16324F;
+    --ink-soft:#3B4B5C;
+    --muted:#6B7280;
+    --border:#E1E4E1;
+    --amber:#E2962B;
+    --teal:#2F7A6D;
+    --purple:#8A5FBF;
+    --clay:#C1432B;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    background:var(--bg); color:var(--ink-soft);
+    font-family:'IBM Plex Sans', system-ui, sans-serif;
+    font-size:14px; line-height:1.5;
+    min-height:100vh;
+  }
+  h1,h2,.eyebrow{font-family:'Space Grotesk', system-ui, sans-serif;}
+
+  .top{
+    background:var(--ink); color:#fff;
+    padding:56px 40px 64px;
+  }
+  .top-inner{max-width:1080px; margin:0 auto;}
+  .eyebrow{
+    font-size:12px; letter-spacing:.06em; color:var(--amber);
+    font-weight:600; text-transform:uppercase; margin-bottom:10px;
+  }
+  .top h1{font-size:32px; font-weight:600; line-height:1.15; max-width:640px;}
+  .top p{margin-top:12px; color:#A9BBC8; font-size:14.5px; max-width:560px;}
+
+  .wrap{max-width:1080px; margin:-34px auto 60px; padding:0 40px;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+    gap:18px;
+  }
+
+  .card{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-top:4px solid var(--accent, var(--amber));
+    padding:24px 22px 22px;
+    display:flex; flex-direction:column;
+    text-decoration:none; color:inherit;
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover{
+    transform:translateY(-3px);
+    box-shadow:0 10px 24px rgba(22,50,79,0.10);
+  }
+  .card .tag{
+    font-size:10.5px; font-weight:700; letter-spacing:.05em; text-transform:uppercase;
+    color:var(--accent, var(--amber)); margin-bottom:10px;
+  }
+  .card h2{font-size:18px; color:var(--ink); font-weight:600; line-height:1.25; margin-bottom:8px;}
+  .card p{font-size:13px; color:var(--muted); flex:1; margin-bottom:18px;}
+  .card .go{
+    font-size:13px; font-weight:600; color:var(--ink);
+    display:flex; align-items:center; gap:6px;
+  }
+  .card .go .arrow{transition:transform .15s ease;}
+  .card:hover .go .arrow{transform:translateX(3px);}
+
+  footer{
+    max-width:1080px; margin:0 auto; padding:0 40px 50px;
+    font-size:11.5px; color:var(--muted);
+  }
+</style>
 </head>
 <body>
-<div class="app">
 
-  <aside class="sidebar" id="sidebar">
-    <div class="brand">
-      <div class="tag">UNIMINUTO · Sede Tolima-Huila</div>
-      <h1>Competitividad Territorial</h1>
-      <div class="sub">Tolima y Huila · IDC 2026</div>
+  <div class="top">
+    <div class="top-inner">
+      <div class="eyebrow">UNIMINUTO · Sede Tolima-Huila</div>
+      <h1>Tableros de control institucionales</h1>
+      <p>Panel central de acceso a los tableros interactivos de la Sede. Elige uno para explorar los datos con sus propios filtros y gráficos.</p>
     </div>
-    <!-- los grupos de filtros se generan desde app.js -->
-    <button class="clear-all" id="clear-all">Limpiar todos los filtros</button>
-    <div class="side-note">Los filtros de factor, pilar, año del dato y búsqueda aplican a los gráficos y tablas de cada pestaña.</div>
-  </aside>
+  </div>
 
-  <main class="main">
-    <div class="main-header">
-      <div>
-        <h2>Índice Departamental de Competitividad 2026</h2>
-        <div class="desc">Comparativo de Tolima y Huila frente al promedio nacional y al promedio del Top 10: 13 pilares, 24 subpilares y 93 indicadores, con serie histórica 2019–2026.</div>
-      </div>
-      <div class="as-of">IDC 2026 · publicado en julio de 2026</div>
-    </div>
+  <div class="wrap">
+    <div class="grid" id="grid"></div>
+  </div>
 
-    <nav class="tabs" id="tabs"></nav>
-    <div class="empty-state" id="empty-state" style="display:none">Los filtros de factor y pilar no tienen pilares en común. Ajusta la selección o usa «Limpiar todos los filtros».</div>
+  <footer>Corte de datos: 31 de agosto de 2026 · Los tableros se actualizan de forma independiente entre sí.</footer>
 
-    <!-- ============ PANORAMA ============ -->
-    <section class="view" id="view-panorama">
-      <div class="kpi-row" id="kpi-pan"></div>
-      <div class="grid">
-        <div class="panel full">
-          <h3>Puntaje por pilar</h3>
-          <div class="panel-sub">Puntaje estandarizado 0–10 · el puesto (entre 33 territorios) aparece bajo cada pilar</div>
-          <div class="legend" id="legend-pan"></div>
-          <div class="chart-wrap" id="wrap-pilares"><canvas id="chart-pilares"></canvas></div>
-        </div>
-        <div class="panel">
-          <h3>Perfil competitivo</h3>
-          <div class="panel-sub">Los 13 pilares frente al promedio nacional y al Top 10</div>
-          <div class="chart-wrap tall"><canvas id="chart-radar"></canvas></div>
-        </div>
-        <div class="panel">
-          <h3>Puntaje por factor</h3>
-          <div class="panel-sub">Promedio de los pilares de cada factor del IDC</div>
-          <div class="chart-wrap tall"><canvas id="chart-factores"></canvas></div>
-        </div>
-        <div class="panel full">
-          <h3>Mapa de posiciones por pilar</h3>
-          <div class="panel-sub">Haz clic en un pilar para ver su detalle · Puesto entre 33 territorios (1 = mejor)</div>
-          <div class="legend"><span><i style="background:var(--good-bg);border:1px solid var(--good-tx)"></i>Fortaleza (puesto 1–8)</span><span><i style="background:var(--mid-bg);border:1px solid var(--mid-tx)"></i>Intermedio (9–18)</span><span><i style="background:var(--bad-bg);border:1px solid var(--bad-tx)"></i>Brecha (19–33)</span></div>
-          <div class="table-wrap"><table id="tbl-map"></table></div>
-        </div>
-        <div class="panel full">
-          <h3>Escalafón general IDC 2026</h3>
-          <div class="panel-sub">Posición de los 33 territorios · Tolima y Huila resaltados</div>
-          <div class="ladder" id="ladder"></div>
-          <div class="note" id="ladder-note"></div>
-        </div>
-        <div class="panel full">
-          <h3>Fortalezas y brechas</h3>
-          <div class="panel-sub">Calculado automáticamente con los puestos de la edición 2026</div>
-          <div class="ins-cols" id="insights"></div>
-        </div>
-      </div>
-    </section>
+<script>
+// Para agregar un tablero nuevo (Graduados, Colaboradores, etc.), solo añade
+// un objeto más a esta lista con su título, descripción, color y URL.
+const DASHBOARDS = [
+  {
+    tag: 'Matrícula',
+    title: 'Histórico de Estudiantes',
+    desc: 'Matrícula por sede, programa y periodo, con demografía y evolución histórica (2016-1 a 2026-2).',
+    color: '#E2962B',
+    url: 'https://juangjaureguig.github.io/Tablero-estudiantes-uniminuto-20161-20262/'
+  },
+  {
+    tag: 'Retención',
+    title: 'Ausentismo y Deserción',
+    desc: 'Series oficiales por Centro Universitario: evolución histórica y comparativo (2014-1 a 2026-2).',
+    color: '#C1432B',
+    url: 'https://juangjaureguig.github.io/Ausentismo-Deserci-n-STH/'
+  },
+  {
+    tag: 'Retención · Detalle',
+    title: 'Ausentismo y Deserción por Programa',
+    desc: 'El mismo análisis, desagregado por programa académico: tabla de detalle y alertas de programas críticos.',
+    color: '#8A5FBF',
+    url: 'https://juangjaureguig.github.io/Ausentismo-Deserci-n-programas/'
+  },
+  {
+    tag: 'Contexto regional',
+    title: 'Competitividad Territorial',
+    desc: 'Indicadores de competitividad de los departamentos de Tolima y Huila — 2025.',
+    color: '#2F7A6D',
+    url: 'https://juangjaureguig.github.io/competitividad-tolima-huila/'
+  },
+  {
+    tag: 'Oferta académica',
+    title: 'Oferta Activa 2026-2',
+    desc: 'Programas activos por Centro Universitario, Modalidad, Nivel y Sede Dueña.',
+    color: '#E84393',
+    url: 'https://juangjaureguig.github.io/Oferta_Activa_STH/'
+  },
+  {
+    tag: 'Dirección Estratégica',
+    title: 'Tablero Dirección Estratégica',
+    desc: 'Riesgos estratégicos, PDI, plan de acción y calidad de procesos de la Sede.',
+    color: '#5294E2',
+    url: 'https://juangjaureguig.github.io/Tablero-direccion-estrategica/'
+  }
+];
 
-    <!-- ============ PILARES ============ -->
-    <section class="view" id="view-pilares">
-      <div class="pill-nav" id="pill-nav"></div>
-      <div id="pillar-head"></div>
-      <div class="kpi-row" id="kpi-pil"></div>
-      <div class="best-row" id="best-row"></div>
-      <div class="grid">
-        <div class="panel" id="panel-sub">
-          <h3>Subpilares</h3>
-          <div class="panel-sub">Puntaje 2026 y puesto de cada subpilar</div>
-          <div class="chart-wrap" id="wrap-sub"><canvas id="chart-sub"></canvas></div>
-        </div>
-        <div class="panel" id="panel-hist-pil">
-          <h3>Evolución 2019–2026</h3>
-          <div class="panel-sub">Serie recalculada bajo la metodología 2026</div>
-          <div class="chart-wrap" id="wrap-hist-pil"><canvas id="chart-hist-pil"></canvas></div>
-        </div>
-        <div class="panel full">
-          <h3>Indicadores del pilar</h3>
-          <div class="panel-sub">Puntaje estandarizado 0–10 · [puesto] y año del dato</div>
-          <div class="chart-wrap" id="wrap-ind-pil"><canvas id="chart-ind-pil"></canvas></div>
-        </div>
-        <div class="panel full">
-          <h3>Detalle de indicadores, cálculo y fuente</h3>
-          <div class="panel-sub">Haz clic en una fila para ver la definición operacional y la fuente</div>
-          <div class="table-wrap"><table id="tbl-ind-pil"></table></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ INDICADORES ============ -->
-    <section class="view" id="view-indicadores">
-      <div class="kpi-row" id="kpi-ind"></div>
-      <div class="grid">
-        <div class="panel">
-          <h3>Distribución de posiciones</h3>
-          <div class="panel-sub">Cantidad de indicadores por rango de puesto (1–8 · 9–18 · 19–33)</div>
-          <div class="chart-wrap xtall"><canvas id="chart-dist"></canvas></div>
-        </div>
-        <div class="panel">
-          <h3>Indicadores en brecha por pilar</h3>
-          <div class="panel-sub">Indicadores con puesto 19 o inferior</div>
-          <div class="chart-wrap xtall"><canvas id="chart-brechas"></canvas></div>
-        </div>
-        <div class="panel full">
-          <h3>Los 93 indicadores del IDC 2026</h3>
-          <div class="panel-sub" id="ind-count-sub"></div>
-          <div class="table-wrap"><table id="tbl-ind"></table></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ HISTÓRICO ============ -->
-    <section class="view" id="view-historico">
-      <div class="grid">
-        <div class="panel full">
-          <h3 id="hist-title">Puntaje general 2019–2026</h3>
-          <div class="panel-sub" id="hist-sub"></div>
-          <div class="chart-wrap tall"><canvas id="chart-general"></canvas></div>
-        </div>
-        <div class="panel">
-          <h3>Cambio 2025 → 2026 por pilar</h3>
-          <div class="panel-sub">Diferencia de puntaje frente a la serie 2025 recalculada</div>
-          <div class="chart-wrap" id="wrap-d26"><canvas id="chart-d26"></canvas></div>
-        </div>
-        <div class="panel">
-          <h3>Cambio 2019 → 2026 por pilar</h3>
-          <div class="panel-sub">Diferencia acumulada de puntaje en la serie recalculada</div>
-          <div class="chart-wrap" id="wrap-d19"><canvas id="chart-d19"></canvas></div>
-        </div>
-        <div class="panel full">
-          <h3>Serie histórica por pilar</h3>
-          <div class="panel-sub">Puntaje por año · la flecha compara 2026 con 2025</div>
-          <div class="table-wrap"><table id="tbl-hist"></table></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ METODOLOGÍA ============ -->
-    <section class="view" id="view-metodologia">
-      <div class="grid">
-        <div class="panel full"><div class="prose" id="prose"></div></div>
-      </div>
-    </section>
-
-    <footer class="credit" id="credit"></footer>
-  </main>
-</div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
-<script src="app.js"></script>
+const grid = document.getElementById('grid');
+DASHBOARDS.forEach(d => {
+  const a = document.createElement('a');
+  a.className = 'card';
+  a.href = d.url;
+  a.style.setProperty('--accent', d.color);
+  a.innerHTML = `
+    <div class="tag">${d.tag}</div>
+    <h2>${d.title}</h2>
+    <p>${d.desc}</p>
+    <div class="go">Abrir tablero <span class="arrow">→</span></div>
+  `;
+  grid.appendChild(a);
+});
+</script>
 </body>
 </html>
